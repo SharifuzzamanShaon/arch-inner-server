@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AuthAdmin {
+  id       String @id @default(uuid())
+  name     String
+  email    String
+  password String
+  role     String @default("ADMIN")
+  status   Status @default(PUBLISHED)
+}
+
+model BlogCategory {
+  id        String   @id @default(uuid())
+  name      String
+  status    Status   @default(PUBLISHED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  blogs     Blog[]
+}
+
+model Blog {
+  id           String       @id @default(uuid())
+  categoryId   String
+  title        String      
+  thumbnail    String
+  content      String       @db.Text
+  excerpt     String?       @db.Text
+  urlSlug      String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  blogCategory BlogCategory @relation(fields: [categoryId], references: [id])
+  status       Status       @default(PUBLISHED)
+}
+
+model ProjectCategory {
+  id          String      @id @default(uuid())
+  name        String
+  status      Status      @default(PUBLISHED)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Projects Porject[]
+}
+
+model Porject {
+  id                String            @id @default(uuid())
+  categoryId        String
+  thumbnail         String
+  title             String
+  status            Status            @default(PUBLISHED)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  ProjectCategory ProjectCategory @relation(fields: [categoryId], references: [id])
+
+  type           String?
+  architech      String? 
+  client         String?
+  duration       String? 
+  strategy       String? 
+  date           String?
+  gallery        Json?
+
+  @@index([categoryId])
+  @@index([status])
+}
+
+model Service{
+  id        String   @id @default(uuid())
+  name          String
+  thumbnail     String
+  details       Json
+}
+model Contacts {
+  id        String   @id @default(uuid())
+  email     String  
+  name      String
+  message   String
+  createdAt DateTime @default(now())
+}
+enum Status {
+  PUBLISHED
+  DRAFT
+}
