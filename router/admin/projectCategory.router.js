@@ -4,7 +4,7 @@ import {
   deleteProjectCategory,
   getAllProjectCategories,
   updateProjectCategory,
-} from "../../controller/projectController/ProjectCategory.contoller.js";
+} from "../../controller/projectController/projectCategory.contoller.js";
 import { runValidation } from "../../validation/index.js";
 import {
   blogCategorySchema,
