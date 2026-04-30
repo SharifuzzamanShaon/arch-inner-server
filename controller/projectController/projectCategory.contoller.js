@@ -4,7 +4,7 @@ import {
   deleteProjectCategoryService,
   getProjectCategoryByIdService,
   updateProjectCategoryService,
-} from "../../services/ProjectCategory.service.js";
+} from "../../services/projectCategory.service.js";
 import error from "../../utils/error.js";
 
 const createProjectCategory = async (req, res, next) => {
